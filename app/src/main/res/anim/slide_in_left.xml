@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ Copyright 2020 Shreedhar Acharya
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,18 +15,8 @@
   ~ limitations under the License.
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="navigation_view">
-
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_favourite"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="@string/menu_fav" />
-        <item
-            android:id="@+id/nav_schools"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_school" />
-    </group>
-</menu>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <translate android:fromXDelta="-100%" android:toXDelta="0%"
+        android:fromYDelta="0%" android:toYDelta="0%"
+        android:duration="@integer/slide"/>
+</set>

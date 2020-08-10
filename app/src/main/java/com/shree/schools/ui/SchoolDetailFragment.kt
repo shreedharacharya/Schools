@@ -14,16 +14,24 @@
  * limitations under the License.
  */
 
-package com.shree.schools.ui.slideshow
+package com.shree.schools.ui
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import com.shree.schools.databinding.FragmentSchoolDetailBinding
 
-class SlideshowViewModel : ViewModel() {
+class SchoolDetailFragment : Fragment() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is slideshow Fragment"
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val binding = FragmentSchoolDetailBinding.inflate(inflater, container, false)
+
+        return binding.root
     }
-    val text: LiveData<String> = _text
 }

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<!--
   ~ Copyright 2020 Shreedhar Acharya
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,18 +14,13 @@
   ~ limitations under the License.
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="navigation_view">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_favourite"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="@string/menu_fav" />
-        <item
-            android:id="@+id/nav_schools"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_school" />
-    </group>
-</menu>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="HI" />
+
+</layout>

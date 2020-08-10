@@ -14,16 +14,9 @@
  * limitations under the License.
  */
 
-package com.shree.schools.ui.home
+package com.shree.schools.ui
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.fragment.app.Fragment
 
-class HomeViewModel : ViewModel() {
-
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
-    }
-    val text: LiveData<String> = _text
+class SchoolListFragment : Fragment() {
 }

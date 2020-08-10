@@ -14,16 +14,10 @@
  * limitations under the License.
  */
 
-package com.shree.schools.ui.gallery
+package com.shree.schools.ui
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.fragment.app.Fragment
 
-class GalleryViewModel : ViewModel() {
+class FavouriteListFragment : Fragment() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is gallery Fragment"
-    }
-    val text: LiveData<String> = _text
 }
