@@ -17,9 +17,10 @@
 plugins {
     id("com.android.application")
     kotlin("android")
+    kotlin("kapt")
     kotlin("android.extensions")
     id("androidx.navigation.safeargs.kotlin")
-
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -65,6 +66,7 @@ android {
 
 dependencies {
     api(platform(project(":depconstraints")))
+    kapt(platform(project(":depconstraints")))
 
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${Versions.KOTLIN_VERSION}")
@@ -82,6 +84,11 @@ dependencies {
     // Architecture Components
     implementation(Libs.NAVIGATION_FRAGMENT_KTX)
     implementation(Libs.NAVIGATION_UI_KTX)
+    implementation(Libs.ROOM_KTX)
+    implementation(Libs.ROOM_RUNTIME)
+    kapt(Libs.ROOM_COMPILER)
+    testImplementation(Libs.ROOM_KTX)
+    testImplementation(Libs.ROOM_RUNTIME)
 
     // Local unit tests
     testImplementation(Libs.JUNIT)
@@ -89,4 +96,27 @@ dependencies {
     // Instrumentation tests
     androidTestImplementation(Libs.EXT_JUNIT)
     androidTestImplementation(Libs.ESPRESSO_CORE)
+
+    implementation(Libs.GSON)
+
+    //Retrofit
+    implementation(Libs.RETROFIT_RUNTIME)
+    implementation(Libs.RETROFIT_MOCK)
+    implementation(Libs.RETROFIT_GSON)
+
+    // OkHttp
+    implementation(Libs.OKHTTP_LOGGING_INTERCEPTOR)
+
+    // Dagger Hilt
+    implementation(Libs.HILT_ANDROID)
+    implementation(Libs.HILT_VIEWMODEL)
+    androidTestImplementation(Libs.HILT_TESTING)
+    kapt(Libs.HILT_COMPILER)
+    kapt(Libs.ANDROIDX_HILT_COMPILER)
+    kaptAndroidTest(Libs.HILT_COMPILER)
+    kaptAndroidTest(Libs.ANDROIDX_HILT_COMPILER)
+
+    //Utils
+    api(Libs.TIMBER)
+
 }

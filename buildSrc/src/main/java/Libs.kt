@@ -24,5 +24,20 @@ object Libs {
     const val JUNIT = "junit:junit"
     const val EXT_JUNIT = "androidx.test.ext:junit"
     const val ESPRESSO_CORE = "androidx.test.espresso:espresso-core"
+    const val GSON = "com.google.code.gson:gson"
+    const val ROOM_COMPILER = "androidx.room:room-compiler"
+    const val ROOM_KTX = "androidx.room:room-ktx"
+    const val ROOM_RUNTIME = "androidx.room:room-runtime"
+    const val RETROFIT_RUNTIME = "com.squareup.retrofit2:retrofit"
+    const val RETROFIT_MOCK = "com.squareup.retrofit2:retrofit-mock"
+    const val RETROFIT_GSON = "com.squareup.retrofit2:converter-gson"
+    const val OKHTTP_LOGGING_INTERCEPTOR = "com.squareup.okhttp3:logging-interceptor"
+    const val HILT_ANDROID = "com.google.dagger:hilt-android"
+    const val HILT_VIEWMODEL = "androidx.hilt:hilt-lifecycle-viewmodel"
+    const val HILT_COMPILER = "com.google.dagger:hilt-android-compiler"
+    const val HILT_TESTING = "com.google.dagger:hilt-android-testing"
+    const val ANDROIDX_HILT_COMPILER = "androidx.hilt:hilt-compiler"
+    const val TIMBER = "com.jakewharton.timber:timber"
+
 }
 

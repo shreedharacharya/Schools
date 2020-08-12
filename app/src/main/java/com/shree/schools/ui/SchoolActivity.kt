@@ -27,8 +27,10 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.shree.schools.R
 import com.shree.schools.databinding.ActivitySchoolBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.app_bar_main.*
 
+@AndroidEntryPoint
 class SchoolActivity : AppCompatActivity() {
 
     lateinit var appBarConfiguration: AppBarConfiguration

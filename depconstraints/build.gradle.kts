@@ -25,6 +25,14 @@ val constraintLayout = "1.1.3"
 val junitExt = "1.1.1"
 val junit = "4.13"
 val espresso = "3.2.0"
+val gson = "2.8.6"
+val room = "2.2.5"
+val retrofit = "2.9.0"
+val okhttp = "3.10.0"
+val hilt = Versions.HILT
+val hiltJetPack = "1.0.0-alpha01"
+val timber = "4.7.1"
+
 
 dependencies {
     constraints {
@@ -37,5 +45,20 @@ dependencies {
         api("${Libs.JUNIT}:$junit")
         api("${Libs.NAVIGATION_FRAGMENT_KTX}:${Versions.NAVIGATION}")
         api("${Libs.NAVIGATION_UI_KTX}:${Versions.NAVIGATION}")
+        api("${Libs.GSON}:$gson")
+        api("${Libs.ROOM_KTX}:$room")
+        api("${Libs.ROOM_RUNTIME}:$room")
+        api("${Libs.ROOM_COMPILER}:$room")
+        api("${Libs.RETROFIT_RUNTIME}:$retrofit")
+        api("${Libs.RETROFIT_MOCK}:$retrofit")
+        api("${Libs.RETROFIT_GSON}:$retrofit")
+        api("${Libs.OKHTTP_LOGGING_INTERCEPTOR}:$okhttp")
+        api("${Libs.HILT_ANDROID}:$hilt")
+        api("${Libs.HILT_COMPILER}:$hilt")
+        api("${Libs.HILT_TESTING}:$hilt")
+        api("${Libs.HILT_VIEWMODEL}:$hiltJetPack")
+        api("${Libs.ANDROIDX_HILT_COMPILER}:$hiltJetPack")
+        api("${Libs.TIMBER}:$timber")
+
     }
 }

@@ -25,4 +25,6 @@ object Versions {
     const val ANDROID_GRADLE_PLUGIN = "4.0.1"
     const val KOTLIN_VERSION = "1.3.72"
     const val NAVIGATION = "2.3.0"
+    const val HILT = "2.28-alpha"
+
 }

@@ -14,9 +14,25 @@
  * limitations under the License.
  */
 
-package com.shree.schools.ui
+package com.shree.schools.result
 
-import androidx.fragment.app.Fragment
+/**
+ * A generic class that holds a value with its loading status.
+ * @param <T>
+ */
+sealed class Result<out R> {
+    data class Success<out T>(val data: T) : Result<T>()
+    data class Error(val exception: Exception) : Result<Nothing>()
+    object Loading : Result<Nothing>()
 
-class SchoolListFragment : Fragment() {
+    override fun toString(): String {
+        return when (this) {
+            is Success<*> -> "Success[data=$data]"
+            is Error -> "Error[exception=$exception]"
+            Loading -> "Loading"
+        }
+    }
 }
+
+val <T> Result<T>.data: T?
+    get() = (this as? Result.Success)?.data

@@ -19,7 +19,7 @@ package com.shree.schools.adapters
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.shree.schools.ui.FavouriteListFragment
-import com.shree.schools.ui.SchoolListFragment
+import com.shree.schools.ui.schools.SchoolListFragment
 import java.lang.IndexOutOfBoundsException
 
 const val FAV_SCHOOL_LIST_PAGE_INDEX = 0
