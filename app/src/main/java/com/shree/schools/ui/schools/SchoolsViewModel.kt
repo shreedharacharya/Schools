@@ -62,16 +62,11 @@ class SchoolsViewModel @ViewModelInject constructor(
 
     private fun loadSchoolData() {
         viewModelScope.launch {
-
             schoolListFlow.collectLatest {
-
-                when (it) {
-                    is Result.Loading -> _schoolList.value = listOf(LoadingIndicator)
-
-                    is Result.Success -> _schoolList.value = it.data
-
-                    else -> _schoolList.value = listOf(SchoolsEmpty(it.exception?.message ?: ""))
-
+                _schoolList.value = when (it) {
+                    is Result.Loading -> listOf(LoadingIndicator)
+                    is Result.Success -> it.data
+                    else -> listOf(SchoolsEmpty(it.exception?.message ?: ""))
                 }
             }
         }
