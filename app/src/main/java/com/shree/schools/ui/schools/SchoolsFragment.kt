@@ -27,10 +27,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.shree.schools.data.SchoolData
 import com.shree.schools.databinding.FragmentSchoolsBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.InternalCoroutinesApi
 
 @AndroidEntryPoint
+@ExperimentalCoroutinesApi
+@FlowPreview
 class SchoolListFragment : Fragment() {
     private val viewModel: SchoolsViewModel by viewModels()
+    private lateinit var adapter: SchoolsAdapter
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,13 +46,41 @@ class SchoolListFragment : Fragment() {
             lifecycleOwner = viewLifecycleOwner
         }
         binding.viewModel = viewModel
+
+        adapter = createAdapter()
+        binding.recyclerView.adapter = adapter
         return binding.root
+    }
+
+    private fun createAdapter(): SchoolsAdapter {
+        val schoolsViewBinder = SchoolViewBinder()
+        val schoolEmptyViewBinder = SchoolsEmptyViewBinder {
+            viewModel.retry()
+        }
+        val schoolLoadingViewBinder = SchoolsLoadingViewBinder()
+
+        @Suppress("UNCHECKED_CAST")
+        return SchoolsAdapter(
+            mapOf(
+                Pair(
+                    schoolsViewBinder.modelClass,
+                    schoolsViewBinder as FeedItemBinder
+                ),
+                Pair(
+                    schoolEmptyViewBinder.modelClass,
+                    schoolEmptyViewBinder as FeedItemBinder
+                ),
+                Pair(
+                    schoolLoadingViewBinder.modelClass,
+                    schoolLoadingViewBinder as FeedItemBinder
+                )
+            )
+
+        )
     }
 }
 
 @BindingAdapter(value = ["schoolItems"])
-fun schoolItems(recyclerView: RecyclerView, schoolList: List<SchoolData>?) {
-    schoolList ?: return
-    if (recyclerView.adapter == null) recyclerView.adapter = SchoolsAdapter()
+fun schoolItems(recyclerView: RecyclerView, schoolList: List<Any>?) {
     (recyclerView.adapter as SchoolsAdapter).submitList(schoolList)
 }

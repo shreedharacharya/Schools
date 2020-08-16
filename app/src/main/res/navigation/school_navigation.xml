@@ -37,7 +37,7 @@
 
     <fragment
         android:id="@+id/school_detail_fragment"
-        android:name="com.shree.schools.ui.SchoolDetailFragment"
+        android:name="com.shree.schools.ui.detail.SchoolDetailFragment"
         android:label="@string/school_detail_title"
         tools:layout="@layout/fragment_school_detail" />
 

@@ -14,26 +14,25 @@
  * limitations under the License.
  */
 
-package com.shree.schools.domain.schools
+package com.shree.schools.domain
 
-import com.shree.schools.data.SchoolData
-import com.shree.schools.data.SchoolRepository
-import com.shree.schools.di.IoDispatcher
-import com.shree.schools.domain.FlowUseCase
 import com.shree.schools.result.Result
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import javax.inject.Inject
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
 
 /**
- * Loads the schools data and parameters is the
- * identifier in the url
+ * Executes business logic in its execute method and keep posting updates to the result as
+ * [Result<R>].
+ * Handling an exception (emit [Result.Error] to the result) is the subclasses's responsibility.
  */
-class LoadSchoolsUseCase @Inject constructor(
-    private val repository: SchoolRepository,
-    @IoDispatcher ioDispatcher: CoroutineDispatcher
-) : FlowUseCase<String, List<SchoolData>>(ioDispatcher) {
+abstract class FlowUseCase<in P, R>(private val coroutineDispatcher: CoroutineDispatcher) {
+    @ExperimentalCoroutinesApi
+    operator fun invoke(parameters: P): Flow<Result<R>> = execute(parameters)
+        .catch { e -> emit(Result.Error(Exception(e))) }
+        .flowOn(coroutineDispatcher)
 
-    override fun execute(parameters: String): Flow<Result<List<SchoolData>>> =
-        repository.getSchoolData(parameters)
+    protected abstract fun execute(parameters: P): Flow<Result<R>>
 }

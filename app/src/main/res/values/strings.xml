@@ -27,4 +27,6 @@
     <string name="menu_fav">Favourite</string>
     <string name="menu_school">Schools</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="feed_not_available">No Schools found.</string>
+    <string name="retry">Retry</string>
 </resources>

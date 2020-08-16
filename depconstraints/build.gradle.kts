@@ -32,6 +32,7 @@ val okhttp = "3.10.0"
 val hilt = Versions.HILT
 val hiltJetPack = "1.0.0-alpha01"
 val timber = "4.7.1"
+val lifecycle = "2.2.0"
 
 
 dependencies {
@@ -59,6 +60,9 @@ dependencies {
         api("${Libs.HILT_VIEWMODEL}:$hiltJetPack")
         api("${Libs.ANDROIDX_HILT_COMPILER}:$hiltJetPack")
         api("${Libs.TIMBER}:$timber")
+        api("${Libs.LIFECYCLE_LIVE_DATA_KTX}:$lifecycle")
+        api("${Libs.LIFECYCLE_COMPILER}:$lifecycle")
+
 
     }
 }

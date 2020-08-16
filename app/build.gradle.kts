@@ -89,6 +89,8 @@ dependencies {
     kapt(Libs.ROOM_COMPILER)
     testImplementation(Libs.ROOM_KTX)
     testImplementation(Libs.ROOM_RUNTIME)
+    implementation(Libs.LIFECYCLE_LIVE_DATA_KTX)
+    kapt(Libs.LIFECYCLE_COMPILER)
 
     // Local unit tests
     testImplementation(Libs.JUNIT)

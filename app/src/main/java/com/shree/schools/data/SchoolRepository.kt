@@ -17,18 +17,24 @@
 package com.shree.schools.data
 
 import com.shree.schools.api.SchoolApi
+import com.shree.schools.result.Result
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 /**
  * Single point of access to school list data for presentation layer.
  */
 interface SchoolRepository {
-    suspend fun getSchoolData(identifier: String): List<SchoolData>
+    fun getSchoolData(identifier: String): Flow<Result<List<SchoolData>>>
 }
 
 class DefaultSchoolRepository(private val schoolApi: SchoolApi) : SchoolRepository {
 
-    override suspend fun getSchoolData(identifier: String): List<SchoolData> {
-        return schoolApi.getSchools(identifier)
+    override fun getSchoolData(identifier: String): Flow<Result<List<SchoolData>>> {
+        return flow {
+            emit(Result.Loading)
+            emit(Result.Success(schoolApi.getSchools(identifier)))
+        }
     }
 
 }

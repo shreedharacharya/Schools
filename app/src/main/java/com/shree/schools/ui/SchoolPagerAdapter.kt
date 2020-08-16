@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.shree.schools.adapters
+package com.shree.schools.ui
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.shree.schools.ui.FavouriteListFragment
+import com.shree.schools.ui.favourite.FavouriteListFragment
 import com.shree.schools.ui.schools.SchoolListFragment
 import java.lang.IndexOutOfBoundsException
 

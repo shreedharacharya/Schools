@@ -16,50 +16,72 @@
 
 package com.shree.schools.ui.schools
 
-import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
-import com.shree.schools.R
-import com.shree.schools.data.SchoolData
-import com.shree.schools.databinding.SchoolItemBinding
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
-class SchoolsAdapter : ListAdapter<SchoolData, SchoolsViewHolder>(SchoolDataDiffCallback) {
+typealias FeedItemClass = Class<out Any>
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SchoolsViewHolder {
-        return SchoolsViewHolder(
-            DataBindingUtil.inflate(
-                LayoutInflater.from(parent.context),
-                R.layout.school_item,
-                parent,
-                false
-            )
-        )
+typealias FeedItemBinder = FeedItemViewBinder<Any, ViewHolder>
+
+class SchoolsAdapter(
+    private val viewBinders: Map<FeedItemClass, FeedItemBinder>
+) : ListAdapter<Any, ViewHolder>(FeedDiffCallback(viewBinders)) {
+
+    private val viewTypeToBinder = viewBinders.mapKeys { it.value.getFeedItemType() }
+
+    private fun getViewBinder(viewType: Int): FeedItemBinder = viewTypeToBinder.getValue(viewType)
+
+    override fun getItemViewType(position: Int): Int =
+        viewBinders.getValue(super.getItem(position).javaClass).getFeedItemType()
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        return getViewBinder(getItemViewType(position)).bindViewHolder(getItem(position), holder)
     }
 
-    override fun onBindViewHolder(holder: SchoolsViewHolder, position: Int) {
-        holder.bind(getItem(position))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return getViewBinder(viewType).createViewHolder(parent)
+    }
+
+    override fun onViewRecycled(holder: ViewHolder) {
+        getViewBinder(holder.itemViewType).onViewRecycled(holder)
+        super.onViewRecycled(holder)
+    }
+
+    override fun onViewDetachedFromWindow(holder: ViewHolder) {
+        getViewBinder(holder.itemViewType).onViewDetachedFromWindow(holder)
+        super.onViewDetachedFromWindow(holder)
     }
 }
 
-class SchoolsViewHolder(
-    private val binding: SchoolItemBinding
-) : RecyclerView.ViewHolder(binding.root) {
+/** Encapsulates logic to create and bind a ViewHolder for a type of item in the Feed. */
+abstract class FeedItemViewBinder<M, in VH : ViewHolder>(
+    val modelClass: Class<out M>
+) : DiffUtil.ItemCallback<M>() {
 
-    fun bind(schoolData: SchoolData) {
-        //binding.setVariable() todo
-        binding.school = schoolData
-        binding.executePendingBindings()
-    }
+    abstract fun createViewHolder(parent: ViewGroup): ViewHolder
+    abstract fun bindViewHolder(model: M, viewHolder: VH)
+    abstract fun getFeedItemType(): Int
 
+    // Having these as non abstract because not all the viewBinders are required to implement them.
+    open fun onViewRecycled(viewHolder: VH) = Unit
+    open fun onViewDetachedFromWindow(viewHolder: VH) = Unit
 }
 
-object SchoolDataDiffCallback : DiffUtil.ItemCallback<SchoolData>() {
-    override fun areItemsTheSame(oldItem: SchoolData, newItem: SchoolData): Boolean =
-        oldItem.schoolId == newItem.schoolId
+internal class FeedDiffCallback(
+    private val viewBinders: Map<FeedItemClass, FeedItemBinder>
+) : DiffUtil.ItemCallback<Any>() {
 
-    override fun areContentsTheSame(oldItem: SchoolData, newItem: SchoolData): Boolean =
-        oldItem == newItem
+    override fun areItemsTheSame(oldItem: Any, newItem: Any): Boolean {
+        if (oldItem::class != newItem::class) {
+            return false
+        }
+        return viewBinders[oldItem::class.java]?.areItemsTheSame(oldItem, newItem) ?: false
+    }
+
+    override fun areContentsTheSame(oldItem: Any, newItem: Any): Boolean {
+        // We know the items are the same class because [areItemsTheSame] returned true
+        return viewBinders[oldItem::class.java]?.areContentsTheSame(oldItem, newItem) ?: false
+    }
 }

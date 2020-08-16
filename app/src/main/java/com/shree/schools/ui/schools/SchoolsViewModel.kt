@@ -19,23 +19,32 @@ package com.shree.schools.ui.schools
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
-import com.shree.schools.data.SchoolData
 import com.shree.schools.domain.schools.LoadSchoolsUseCase
-import com.shree.schools.result.data
+import com.shree.schools.result.Result
+import com.shree.schools.result.exception
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
+@FlowPreview
+@ExperimentalCoroutinesApi
 class SchoolsViewModel @ViewModelInject constructor(
     private val loadSchoolListUseCase: LoadSchoolsUseCase,
     @Assisted private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _schoolList = MutableLiveData<List<SchoolData>>()
-    val schoolList: LiveData<List<SchoolData>> = _schoolList
+    private val _schoolList = MutableLiveData<List<Any>>()
+    val schoolList: LiveData<List<Any>> = _schoolList
+    private val reload = MutableLiveData<Boolean>()
+    private val schoolListFlow: Flow<Result<List<Any>>> = flowOf(
+        reload.asFlow().flatMapLatest { loadSchoolListUseCase(getIdentifier().value.toString()) }
+    ).flattenMerge(1)
+
 
     init {
-        viewModelScope.launch {
-            _schoolList.value = loadSchoolListUseCase(getIdentifier().value.toString()).data
-        }
+        reload.value = true
+        loadSchoolData()
     }
 
     private fun getIdentifier(): MutableLiveData<String> {
@@ -44,6 +53,28 @@ class SchoolsViewModel @ViewModelInject constructor(
 
     fun setIdentifier(num: Int) {
         savedStateHandle.set(IDENTIFIER_KEY, "")
+    }
+
+    fun retry() {
+        reload.value = true
+    }
+
+
+    private fun loadSchoolData() {
+        viewModelScope.launch {
+
+            schoolListFlow.collectLatest {
+
+                when (it) {
+                    is Result.Loading -> _schoolList.value = listOf(LoadingIndicator)
+
+                    is Result.Success -> _schoolList.value = it.data
+
+                    else -> _schoolList.value = listOf(SchoolsEmpty(it.exception?.message ?: ""))
+
+                }
+            }
+        }
     }
 
     companion object {

@@ -14,24 +14,10 @@
  * limitations under the License.
  */
 
-package com.shree.schools.ui
+package com.shree.schools.ui.favourite
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.shree.schools.databinding.FragmentSchoolDetailBinding
 
-class SchoolDetailFragment : Fragment() {
+class FavouriteListFragment : Fragment() {
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val binding = FragmentSchoolDetailBinding.inflate(inflater, container, false)
-
-        return binding.root
-    }
 }

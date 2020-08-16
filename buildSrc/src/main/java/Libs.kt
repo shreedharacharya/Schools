@@ -38,6 +38,8 @@ object Libs {
     const val HILT_TESTING = "com.google.dagger:hilt-android-testing"
     const val ANDROIDX_HILT_COMPILER = "androidx.hilt:hilt-compiler"
     const val TIMBER = "com.jakewharton.timber:timber"
+    const val LIFECYCLE_LIVE_DATA_KTX = "androidx.lifecycle:lifecycle-livedata-ktx"
+    const val LIFECYCLE_COMPILER = "androidx.lifecycle:lifecycle-compiler"
 
 }
 
