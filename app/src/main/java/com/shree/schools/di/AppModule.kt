@@ -16,13 +16,16 @@
 
 package com.shree.schools.di
 
+import android.content.Context
 import com.shree.schools.api.SchoolApi
 import com.shree.schools.data.DefaultSchoolRepository
 import com.shree.schools.data.SchoolRepository
+import com.shree.schools.data.db.AppDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Singleton
 
 @InstallIn(ApplicationComponent::class)
@@ -37,7 +40,13 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideSchoolDataRepository(schoolApi: SchoolApi): SchoolRepository {
-        return DefaultSchoolRepository(schoolApi)
+    fun provideSchoolDataRepository(schoolApi: SchoolApi, database: AppDatabase): SchoolRepository {
+        return DefaultSchoolRepository(schoolApi, database)
+    }
+
+    @Singleton
+    @Provides
+    fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase {
+        return AppDatabase.buildDatabase(context)
     }
 }

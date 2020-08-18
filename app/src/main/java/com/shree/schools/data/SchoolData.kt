@@ -16,6 +16,7 @@
 
 package com.shree.schools.data
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
@@ -23,11 +24,12 @@ import com.google.gson.annotations.SerializedName
 
 @Entity(
     tableName = "school_data",
-    indices = [Index("dbn")]
+    indices = [Index("id")]
 )
 data class SchoolData(
     @PrimaryKey
     @SerializedName("dbn")
+    @ColumnInfo(name = "id")
     val schoolId: String,
     @SerializedName("overview_paragraph")
     val schoolDes: String,

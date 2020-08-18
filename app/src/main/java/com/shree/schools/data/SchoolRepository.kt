@@ -16,10 +16,14 @@
 
 package com.shree.schools.data
 
+import android.util.Log
+import androidx.lifecycle.asFlow
 import com.shree.schools.api.SchoolApi
+import com.shree.schools.data.db.AppDatabase
 import com.shree.schools.result.Result
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import java.lang.Exception
 
 /**
  * Single point of access to school list data for presentation layer.
@@ -28,12 +32,23 @@ interface SchoolRepository {
     fun getSchoolData(identifier: String): Flow<Result<List<SchoolData>>>
 }
 
-class DefaultSchoolRepository(private val schoolApi: SchoolApi) : SchoolRepository {
+class DefaultSchoolRepository(
+    private val schoolApi: SchoolApi,
+    private val appDatabase: AppDatabase
+) : SchoolRepository {
 
     override fun getSchoolData(identifier: String): Flow<Result<List<SchoolData>>> {
         return flow {
             emit(Result.Loading)
-            emit(Result.Success(schoolApi.getSchools(identifier)))
+
+            // first load from database
+            var schools = appDatabase.schoolDao().getSchools()
+            // if not found in database load from service
+            if (schools.isEmpty()) {
+                schools = schoolApi.getSchools(identifier)
+                appDatabase.schoolDao().insertAll(schools)
+            }
+            emit(Result.Success(schools))
         }
     }
 

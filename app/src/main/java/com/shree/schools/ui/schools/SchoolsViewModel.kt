@@ -16,6 +16,7 @@
 
 package com.shree.schools.ui.schools
 
+import android.util.Log
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
@@ -26,6 +27,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @FlowPreview
 @ExperimentalCoroutinesApi
@@ -39,7 +41,7 @@ class SchoolsViewModel @ViewModelInject constructor(
     private val reload = MutableLiveData<Boolean>()
     private val schoolListFlow: Flow<Result<List<Any>>> = flowOf(
         reload.asFlow().flatMapLatest { loadSchoolListUseCase(getIdentifier().value.toString()) }
-    ).flattenMerge(1)
+    ).flattenConcat()
 
 
     init {
@@ -66,7 +68,10 @@ class SchoolsViewModel @ViewModelInject constructor(
                 _schoolList.value = when (it) {
                     is Result.Loading -> listOf(LoadingIndicator)
                     is Result.Success -> it.data
-                    else -> listOf(SchoolsEmpty(it.exception?.message ?: ""))
+                    else -> {
+                        Timber.e(it.exception)
+                        listOf(SchoolsEmpty(it.exception?.message ?: ""))
+                    }
                 }
             }
         }
